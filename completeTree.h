@@ -28,6 +28,7 @@ int updateEdge(completeTree *tree, unsigned from, unsigned to, float val);
 //Returns 0 on error
 float getEdge(completeTree *tree, unsigned from, unsigned to);
 
-
+static inline unsigned calc_index(unsigned lowN, unsigned highN,
+                                  unsigned numNodes);
 
 #endif

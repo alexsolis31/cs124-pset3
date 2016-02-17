@@ -4,29 +4,7 @@
 #include <assert.h>
 #include "completeTree.h"
 
-#define CALC_INDEX(lowN, highN, nodes)    (lowN == 0  ? highN - lowN - 1 : (((nodes - 1) * nodes) / 2 - ((nodes - lowN - 1) * (nodes - lowN - 2)) / 2) + highN - lowN - 1)
-//let's see: find beginning of "lowN" "zone"
-//offset into zone is highN - lowN - 1
-//so our function looks like: ((zoneCalc) + highN - lowN - 1)
 
-//how can we get beginning of lowN?
-/*
-0 --> 0
-1 --> numNodes - 1
-2 --> numNodes - 1 + numNodes - 2
-3 --> numNodes - 1 + numNodes - 2 + numNodes - 3
-......
-
-sum from (numNodes - low to numNodes - 1) with 0 if 0.
-(((numNodes - 1) * numNodes) / 2 - ((numNodes - i - 1)*(numNodes - i - 2)) / 2)
-
-
-*/
-//  sum from (numNodes - lowN) to (numNodes - 1)
-
-
-//Allocates a completeTree with numNodes nodes.
-//Returns NULL on error
 completeTree *genCompleteTree(unsigned numNodes) {
 
     assert(numNodes != 0);
@@ -82,10 +60,10 @@ int updateEdge(completeTree *tree, unsigned from, unsigned to, float val) {
     assert(val >= 0);
 
     if (from < to) {
-        tree->edges[CALC_INDEX(from, to, tree->numNodes)] = val;
+        tree->edges[calc_index(from, to, tree->numNodes)] = val;
     }
     else {
-        tree->edges[CALC_INDEX(to, from, tree->numNodes)] = val;
+        tree->edges[calc_index(to, from, tree->numNodes)] = val;
     }
     return 0;
 }
@@ -99,9 +77,53 @@ float getEdge(completeTree *tree, unsigned from, unsigned to) {
     assert(to < tree->numNodes);
 
     if (from < to) {
-        return tree->edges[CALC_INDEX(from, to, tree->numNodes)];
+        return tree->edges[calc_index(from, to, tree->numNodes)];
     }
     else {
-        return tree->edges[CALC_INDEX(to, from, tree->numNodes)];
+        return tree->edges[calc_index(to, from, tree->numNodes)];
     }
 }
+
+
+
+static inline unsigned calc_index(unsigned lowN, unsigned highN,
+                                  unsigned numNodes) {
+
+    assert(lowN < highN);
+    assert(highN < numNodes);
+
+    //distance from beginning of array to beginning of edges leaving lowN
+    unsigned lowN_offset;
+    //how far into the lowN zone one must go for the edge to highN
+    unsigned highN_offset = highN - lowN - 1;
+
+    if (lowN == 0) {
+        lowN_offset = 0;
+    }
+    else if (lowN == 1) {
+        lowN_offset = numNodes - 1;
+    }
+    else {
+        lowN_offset = ((((numNodes - 1) * numNodes) / 2) -
+                       (((numNodes - lowN - 1) * (numNodes - lowN - 2)) / 2));
+    }
+    return lowN_offset + highN_offset;
+}
+//let's see: find beginning of "lowN" "zone"
+//offset into zone is highN - lowN - 1
+//so our function looks like: ((zoneCalc) + highN - lowN - 1)
+
+//how can we get beginning of lowN?
+/*
+0 --> 0
+1 --> numNodes - 1
+2 --> numNodes - 1 + numNodes - 2
+3 --> numNodes - 1 + numNodes - 2 + numNodes - 3
+......
+
+sum from (numNodes - low to numNodes - 1) with 0 if 0.
+(((numNodes - 1) * numNodes) / 2 - ((numNodes - i - 1)*(numNodes - i - 2)) / 2)
+
+
+*/
+//  sum from (numNodes - lowN) to (numNodes - 1)
