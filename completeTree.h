@@ -22,11 +22,12 @@ void destroyCompleteTree(completeTree *tree);
 
 //Changes the edge value for the edge connecting from and to.
 //Returns 1 on error
-int updateEdge(completeTree *tree, unsigned from, unsigned to, float val);
+static inline int updateEdge(completeTree *tree, unsigned from,
+                             unsigned to, float val);
 
 //Returns the edge value for the edge connecting from and to.
 //Returns 0 on error
-float getEdge(completeTree *tree, unsigned from, unsigned to);
+static inline float getEdge(completeTree *tree, unsigned from, unsigned to);
 
 static inline unsigned calc_index(unsigned lowN, unsigned highN,
                                   unsigned numNodes);

@@ -52,7 +52,8 @@ void destroyCompleteTree(completeTree *tree) {
 
 //Changes the edge value for the edge connecting from and to.
 //Returns 1 on error
-int updateEdge(completeTree *tree, unsigned from, unsigned to, float val) {
+static inline int updateEdge(completeTree *tree, unsigned from,
+                             unsigned to, float val) {
 
     assert(from != to); //or maybe just return 1 and print error?
     assert(from < tree->numNodes);
@@ -70,7 +71,7 @@ int updateEdge(completeTree *tree, unsigned from, unsigned to, float val) {
 
 //Returns the edge value for the edge connecting from and to.
 //Returns 0 on error
-float getEdge(completeTree *tree, unsigned from, unsigned to) {
+static inline float getEdge(completeTree *tree, unsigned from, unsigned to) {
 
     assert(from != to); //or maybe just return 0 and print error?
     assert(from < tree->numNodes);
