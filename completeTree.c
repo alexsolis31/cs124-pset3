@@ -4,7 +4,25 @@
 #include <assert.h>
 #include "completeTree.h"
 
-#define CALC_INDEX(lowN, highN, nodes)    (0) //todo
+#define CALC_INDEX(lowN, highN, nodes)    (lowN == 0  ? highN - lowN - 1 : (((nodes - 1) * nodes) / 2 - ((nodes - lowN - 1) * (nodes - lowN - 2)) / 2) + highN - lowN - 1)
+//let's see: find beginning of "lowN" "zone"
+//offset into zone is highN - lowN - 1
+//so our function looks like: ((zoneCalc) + highN - lowN - 1)
+
+//how can we get beginning of lowN?
+/*
+0 --> 0
+1 --> numNodes - 1
+2 --> numNodes - 1 + numNodes - 2
+3 --> numNodes - 1 + numNodes - 2 + numNodes - 3
+......
+
+sum from (numNodes - low to numNodes - 1) with 0 if 0.
+(((numNodes - 1) * numNodes) / 2 - ((numNodes - i - 1)*(numNodes - i - 2)) / 2)
+
+
+*/
+//  sum from (numNodes - lowN) to (numNodes - 1)
 
 
 //Allocates a completeTree with numNodes nodes.
