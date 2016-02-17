@@ -9,8 +9,21 @@
 completeTree *genCompleteTree(unsigned numNodes) {
 
     //for compile purposes
-    (void) numNodes;
-    return NULL;
+    completeTree *tree = calloc(1, sizeof(completeTree));
+    if (!tree) {
+        printf("Allocating tree structure failed.\n");
+        return NULL;
+    }
+
+    tree->numNodes = numNodes;
+    tree->edges = calloc(((numNodes - 1) * numNodes) / 2, sizeof(float));
+    if (!tree->edges) {
+        printf("Allocating tree with number of nodes: %d failed.\n", numNodes);
+        free(tree);
+        return NULL;
+    }
+
+    return tree;
 }
 
 //Randomly populates tree by randomly placing nodes in dimension-cube

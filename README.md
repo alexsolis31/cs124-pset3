@@ -1,1 +1,1 @@
-blah
+Compile with make.
