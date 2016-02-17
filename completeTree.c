@@ -4,6 +4,8 @@
 #include <assert.h>
 #include "completeTree.h"
 
+#define CALC_INDEX(lowN, highN, nodes)    (0) //todo
+
 
 //Allocates a completeTree with numNodes nodes.
 //Returns NULL on error
@@ -56,16 +58,32 @@ void destroyCompleteTree(completeTree *tree) {
 //Returns 1 on error
 int updateEdge(completeTree *tree, unsigned from, unsigned to, float val) {
 
-    //for compile purposes
-    (void) tree, (void) from, (void) to, (void) val;
-    return 1;
+    assert(from != to); //or maybe just return 1 and print error?
+    assert(from < tree->numNodes);
+    assert(to < tree->numNodes);
+    assert(val >= 0);
+
+    if (from < to) {
+        tree->edges[CALC_INDEX(from, to, tree->numNodes)] = val;
+    }
+    else {
+        tree->edges[CALC_INDEX(to, from, tree->numNodes)] = val;
+    }
+    return 0;
 }
 
 //Returns the edge value for the edge connecting from and to.
 //Returns 0 on error
 float getEdge(completeTree *tree, unsigned from, unsigned to) {
 
-    //for compile purposes
-    (void) tree, (void) from, (void) to;
-    return 0;
+    assert(from != to); //or maybe just return 0 and print error?
+    assert(from < tree->numNodes);
+    assert(to < tree->numNodes);
+
+    if (from < to) {
+        return tree->edges[CALC_INDEX(from, to, tree->numNodes)];
+    }
+    else {
+        return tree->edges[CALC_INDEX(to, from, tree->numNodes)];
+    }
 }
