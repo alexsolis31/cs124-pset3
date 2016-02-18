@@ -45,14 +45,13 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
 //Returns 1 on error.
 int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
-    // graph->numNodes
-    // graph->edges
-    // dimension
-
     int nodes = graph->numNodes;
     int num_edges = (nodes*(nodes-1))/2;
+
+    // array of structs to hold vertex coordinates
     coordinate vertices [nodes];
 
+    // populate the edge array for each dimension
     if (dimension == 0){
         for (int i = 0; i <= num_edges; i++){
             graph->edges[i] = rand_num();
@@ -68,9 +67,10 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
         }
 
+        // edge array updated to hold euclidean distance between vertex (i,j)
         int counter = 0;
         for (int i = 0; i <= nodes; i++){
-            for (int j = i; j < nodes; j++){
+            for (int j = (i+1); j < nodes; j++){
                 graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].x), 2));
                 counter++;
 
@@ -90,7 +90,7 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
         int counter = 0;
         for (int i = 0; i <= nodes; i++){
-            for (int j = i; j < nodes; j++){
+            for (int j = (i+1); j < nodes; j++){
                 graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].y), 2) + pow((vertices[i].z - vertices[j].z), 2));
                 counter++;
 
@@ -109,7 +109,7 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
         int counter = 0;
         for (int i = 0; i <= nodes; i++){
-            for (int j = i; j < nodes; j++){
+            for (int j = (i+1); j < nodes; j++){
                 graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].y), 2) + pow((vertices[i].z - vertices[j].z), 2) + pow((vertices[i].w - vertices[j].w), 2) );
                 counter++;
 
