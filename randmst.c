@@ -48,12 +48,12 @@ randmst flag numPoints numTrials dimension.\n");
 
         //reinitialize graph
         err = eucPopulateCompleteGraph(graph, dimension);
-    //    if (err) {
+        if (err) {
             printf("Error: could not populate Graph on %dth trial.\n", i);
             destroyCompleteGraph(graph);
             free(treeWeights);
             return 1;
-    //    }
+        }
 
         //Find the MST weight and clean up
         curWeight = findMST_Weight(graph);
@@ -74,7 +74,7 @@ randmst flag numPoints numTrials dimension.\n");
     averageWeight = averageWeight / (float) numTrials;
 
     //output: average(weight) numPoints numTrials dimension
-    printf("%f %d %d %d", averageWeight, numPoints, numTrials, dimension);
+    printf("%f %d %d %d\n", averageWeight, numPoints, numTrials, dimension);
 
 
     //appropriate response

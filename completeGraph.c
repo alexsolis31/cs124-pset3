@@ -212,11 +212,21 @@ sum from (numNodes - low to numNodes - 1) with 0 if 0.
 //Returns the weight of the MST for the graph. Returns 0 on error.
 float findMST_Weight(completeGraph *graph) {
     (void) graph;
-    return 0;
+    return 1.0f;
 }
 
 //Use tick count as seed for RNG
+unsigned rand_calls = 0;
+unsigned seeded_once = 0;
+
 float rand_num() {
-    srand(clock());
+    if (!seeded_once) {
+        srand(time(NULL));
+        seeded_once = 1;
+    }
+    if (rand_calls > 1000) {
+        srand(time(NULL) + clock());
+        rand_calls = 0;
+    }
     return rand() / (double)(RAND_MAX);
 }
