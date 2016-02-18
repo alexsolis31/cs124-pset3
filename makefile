@@ -1,8 +1,8 @@
-randmst: randmst.c completeTree.c
-	gcc -o randmst randmst.c completeTree.c -I . -DNDEBUG
+randmst: randmst.c completeGraph.c
+	gcc -o randmst randmst.c completeGraph.c -I . -DNDEBUG
 
-debug: randmst.c completeTree.c
-	gcc -o randmst randmst.c completeTree.c -I .
+debug: randmst.c completeGraph.c
+	gcc -o randmst randmst.c completeGraph.c -I .
 
 clean:
 	rm randmst

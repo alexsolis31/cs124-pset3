@@ -2,92 +2,92 @@
 #include <stdlib.h>
 #include <math.h>
 #include <assert.h>
-#include "completeTree.h"
+#include "completeGraph.h"
 
 
-completeTree *genCompleteTree(unsigned numNodes) {
+completeGraph *genCompleteGraph(unsigned numNodes) {
 
     assert(numNodes != 0);
 
-    //allocate tree structure and error handle
-    completeTree *tree = calloc(1, sizeof(completeTree));
-    if (!tree) {
-        printf("Allocating tree structure failed.\n");
+    //allocate Graph structure and error handle
+    completeGraph *graph = calloc(1, sizeof(completeGraph));
+    if (!graph) {
+        printf("Allocating Graph structure failed.\n");
         return NULL;
     }
 
-    tree->numNodes = numNodes;
+    graph->numNodes = numNodes;
     /* Allocate edge array and error handle
-       Since we have complete trees, store each edge once, and use the fact
+       Since we have complete graphs, store each edge once, and use the fact
        that 1 + 2 + ... + n = (n + 1) * n / 2 to determine array len with
        n = numNodes - 1 */
-    tree->edges = calloc(((numNodes - 1) * numNodes) / 2, sizeof(float));
-    if (!tree->edges) {
-        printf("Allocating tree with number of nodes: %d failed.\n", numNodes);
-        free(tree);
+    graph->edges = calloc(((numNodes - 1) * numNodes) / 2, sizeof(float));
+    if (!graph->edges) {
+        printf("Allocating graph with number of nodes: %d failed.\n", numNodes);
+        free(graph);
         return NULL;
     }
 
-    return tree;
+    return graph;
 }
 
-//Randomly populates tree by randomly placing nodes in dimension-cube
+//Randomly populates graph by randomly placing nodes in dimension-cube
 //and assigning edges by Euclidean distance.
 //Returns 1 on error.
-int eucPopulateCompleteTree(completeTree *tree, unsigned dimension) {
+int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
     //for compile purposes
-    (void) tree, (void) dimension;
+    (void) graph, (void) dimension;
     return 1;
 
 }
 
-//Frees all memeory associated with a completeTree
-void destroyCompleteTree(completeTree *tree) {
+//Frees all memeory associated with a completeGraph
+void destroyCompleteGraph(completeGraph *graph) {
 
-    assert(tree);
-    free(tree->edges);
-    free(tree);
+    assert(graph);
+    free(graph->edges);
+    free(graph);
 }
 
 //Changes the edge value for the edge connecting from and to.
 //Returns 1 on error
-static inline int updateEdge(completeTree *tree, unsigned from,
+static inline int updateEdge(completeGraph *graph, unsigned from,
                              unsigned to, float val) {
 
     assert(from != to); //or maybe just return 1 and print error?
-    assert(from < tree->numNodes);
-    assert(to < tree->numNodes);
+    assert(from < graph->numNodes);
+    assert(to < graph->numNodes);
     assert(val >= 0);
 
     if (from < to) {
-        tree->edges[calc_index(from, to, tree->numNodes)] = val;
+        graph->edges[calcIndex(from, to, graph->numNodes)] = val;
     }
     else {
-        tree->edges[calc_index(to, from, tree->numNodes)] = val;
+        graph->edges[calcIndex(to, from, graph->numNodes)] = val;
     }
     return 0;
 }
 
 //Returns the edge value for the edge connecting from and to.
 //Returns 0 on error
-static inline float getEdge(completeTree *tree, unsigned from, unsigned to) {
+static inline float getEdge(completeGraph *graph, unsigned from, unsigned to) {
 
     assert(from != to); //or maybe just return 0 and print error?
-    assert(from < tree->numNodes);
-    assert(to < tree->numNodes);
+    assert(from < graph->numNodes);
+    assert(to < graph->numNodes);
 
     if (from < to) {
-        return tree->edges[calc_index(from, to, tree->numNodes)];
+        return graph->edges[calcIndex(from, to, graph->numNodes)];
     }
     else {
-        return tree->edges[calc_index(to, from, tree->numNodes)];
+        return graph->edges[calcIndex(to, from, graph->numNodes)];
     }
 }
 
 
 
-static inline unsigned calc_index(unsigned lowN, unsigned highN,
+static inline unsigned calcIndex(unsigned lowN, unsigned highN,
                                   unsigned numNodes) {
 
     assert(lowN < highN);
@@ -109,7 +109,7 @@ static inline unsigned calc_index(unsigned lowN, unsigned highN,
                        (((numNodes - lowN - 1) * (numNodes - lowN - 2)) / 2));
     }
     return lowN_offset + highN_offset;
-}
+}  //motivating logic below
 //let's see: find beginning of "lowN" "zone"
 //offset into zone is highN - lowN - 1
 //so our function looks like: ((zoneCalc) + highN - lowN - 1)
@@ -128,3 +128,10 @@ sum from (numNodes - low to numNodes - 1) with 0 if 0.
 
 */
 //  sum from (numNodes - lowN) to (numNodes - 1)
+
+
+//Returns the weight of the MST for the graph. Returns 0 on error.
+float findMST_Weight(completeGraph *graph) {
+    (void) graph;
+    return 0;
+}
