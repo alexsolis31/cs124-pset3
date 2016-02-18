@@ -35,4 +35,7 @@ static inline unsigned calcIndex(unsigned lowN, unsigned highN,
 //Returns the weight of the MST for the graph. Returns 0 on error.
 float findMST_Weight(completeGraph *graph);
 
+// generate a random number between [0,1]
+float rand_num();
+
 #endif

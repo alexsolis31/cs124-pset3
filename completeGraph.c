@@ -4,6 +4,11 @@
 #include <assert.h>
 #include "completeGraph.h"
 
+typedef struct {
+    float x; 
+    float y;
+} coordinate;
+
 
 completeGraph *genCompleteGraph(unsigned numNodes) {
 
@@ -36,9 +41,42 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
 //Returns 1 on error.
 int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
-    //for compile purposes
-    (void) graph, (void) dimension;
+    // graph->numNodes
+    // graph->edges 
+    // dimension 
+
+    int nodes = graph->numNodes; 
+    int num_edges = (nodes*(nodes-1))/2; 
+    coordinate vertices [nodes]; 
+
+    if (dimension == 0){
+        for (int i = 0; i <= num_edges; i++){
+            graph->edges[i] = rand_num(); 
+        }
+    }
+
+    if (dimension == 2){
+
+        // produce random location for each vertex
+        for (int i = 0; i < nodes; i++){
+            vertices[i].x = rand_num();
+            vertices[i].y = rand_num(); 
+
+        }
+
+        int counter = 0; 
+        for (int i = 0; i <= nodes; i++){
+            for (int j = i; j < nodes; j++){
+                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].x), 2)); 
+                counter++; 
+
+            }
+        } 
+
+    }
+
     return 1;
+
 
 }
 
@@ -134,4 +172,11 @@ sum from (numNodes - low to numNodes - 1) with 0 if 0.
 float findMST_Weight(completeGraph *graph) {
     (void) graph;
     return 0;
+}
+
+float rand_num()
+{
+    float N = 100; 
+    float X = rand() / (double)(RAND_MAX);
+    return X; 
 }
