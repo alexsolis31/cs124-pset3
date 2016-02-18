@@ -117,6 +117,14 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
         }
 
     }
+    int counter = 0;
+    for (int i = 0; i < nodes; i++) {
+        for(int j = i+1; j < nodes; j++) {
+            printf("i is %d j is %d counter is %d\n", i, j, counter);
+            assert(graph->edges[counter] == graph->edges[calcIndex(i, j, nodes)]);
+            counter++;
+        }
+    }
 
     return 0;
 
@@ -215,18 +223,15 @@ float findMST_Weight(completeGraph *graph) {
     return 1.0f;
 }
 
-//Use tick count as seed for RNG
+//Use tick count and clock as seed for RNG
 unsigned rand_calls = 0;
-unsigned seeded_once = 0;
 
-float rand_num() {
-    if (!seeded_once) {
-        srand(time(NULL));
-        seeded_once = 1;
-    }
+static inline float rand_num() {
+
     if (rand_calls > 1000) {
         srand(time(NULL) + clock());
         rand_calls = 0;
     }
+    rand_calls++;
     return rand() / (double)(RAND_MAX);
 }

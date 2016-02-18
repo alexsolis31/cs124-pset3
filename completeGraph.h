@@ -36,6 +36,6 @@ static inline unsigned calcIndex(unsigned lowN, unsigned highN,
 float findMST_Weight(completeGraph *graph);
 
 // generate a random number between [0,1]
-float rand_num();
+static inline float rand_num();
 
 #endif
