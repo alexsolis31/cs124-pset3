@@ -7,6 +7,9 @@
 typedef struct {
     float x; 
     float y;
+    float z; 
+    float w; 
+
 } coordinate;
 
 
@@ -72,11 +75,49 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
             }
         } 
+    }
+
+    if (dimension == 3){
+
+        // produce random location for each vertex
+        for (int i = 0; i < nodes; i++){
+            vertices[i].x = rand_num();
+            vertices[i].y = rand_num(); 
+            vertices[i].z = rand_num(); 
+
+        }
+
+        int counter = 0; 
+        for (int i = 0; i <= nodes; i++){
+            for (int j = i; j < nodes; j++){
+                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].y), 2) + pow((vertices[i].z - vertices[j].z), 2)); 
+                counter++; 
+
+            }
+        } 
+    }
+
+    if (dimension == 4){
+        // produce random location for each vertex
+        for (int i = 0; i < nodes; i++){
+            vertices[i].x = rand_num();
+            vertices[i].y = rand_num(); 
+            vertices[i].z = rand_num(); 
+            vertices[i].w = rand_num(); 
+        }
+
+        int counter = 0; 
+        for (int i = 0; i <= nodes; i++){
+            for (int j = i; j < nodes; j++){
+                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].y), 2) + pow((vertices[i].z - vertices[j].z), 2) + pow((vertices[i].w - vertices[j].w), 2) ); 
+                counter++; 
+
+            }
+        } 
 
     }
 
     return 1;
-
 
 }
 

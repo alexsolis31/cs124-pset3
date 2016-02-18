@@ -26,7 +26,7 @@ int main (int argc, char **argv) {
     coordinate vertices [numNodes]; 
 
 
-    void *graph_edges = calloc(((numNodes - 1) * numNodes) / 2, sizeof(float));
+    float *graph_edges = calloc(((numNodes - 1) * numNodes) / 2, sizeof(float));
     if (!graph_edges) {
         printf("Allocating graph with number of nodes: %d failed.\n", numNodes);
         free(graph_edges);
@@ -50,7 +50,12 @@ int main (int argc, char **argv) {
             counter++; 
 
         }
-    } 
+    }
+
+    printf("%f\n", graph_edges[0]); 
+    printf("%f\n", graph_edges[1]);
+   	printf("%f\n", graph_edges[2]); 
+   	printf("%f\n", graph_edges[3]);  
 
 
 }
