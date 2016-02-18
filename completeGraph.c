@@ -3,12 +3,13 @@
 #include <math.h>
 #include <assert.h>
 #include "completeGraph.h"
+#include <time.h>
 
 typedef struct {
-    float x; 
+    float x;
     float y;
-    float z; 
-    float w; 
+    float z;
+    float w;
 
 } coordinate;
 
@@ -18,19 +19,19 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
     assert(numNodes != 0);
 
     //allocate Graph structure and error handle
-    completeGraph *graph = calloc(1, sizeof(completeGraph));
-    if (!graph) {
+    completeGraph *graph = malloc(sizeof(completeGraph));
+    if (graph == NULL) {
         printf("Allocating Graph structure failed.\n");
         return NULL;
     }
-
+    graph->edges = NULL;
     graph->numNodes = numNodes;
     /* Allocate edge array and error handle
        Since we have complete graphs, store each edge once, and use the fact
        that 1 + 2 + ... + n = (n + 1) * n / 2 to determine array len with
        n = numNodes - 1 */
     graph->edges = calloc(((numNodes - 1) * numNodes) / 2, sizeof(float));
-    if (!graph->edges) {
+    if (graph->edges == NULL) {
         printf("Allocating graph with number of nodes: %d failed.\n", numNodes);
         free(graph);
         return NULL;
@@ -45,16 +46,16 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
 int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
     // graph->numNodes
-    // graph->edges 
-    // dimension 
+    // graph->edges
+    // dimension
 
-    int nodes = graph->numNodes; 
-    int num_edges = (nodes*(nodes-1))/2; 
-    coordinate vertices [nodes]; 
+    int nodes = graph->numNodes;
+    int num_edges = (nodes*(nodes-1))/2;
+    coordinate vertices [nodes];
 
     if (dimension == 0){
         for (int i = 0; i <= num_edges; i++){
-            graph->edges[i] = rand_num(); 
+            graph->edges[i] = rand_num();
         }
     }
 
@@ -63,18 +64,18 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
         // produce random location for each vertex
         for (int i = 0; i < nodes; i++){
             vertices[i].x = rand_num();
-            vertices[i].y = rand_num(); 
+            vertices[i].y = rand_num();
 
         }
 
-        int counter = 0; 
+        int counter = 0;
         for (int i = 0; i <= nodes; i++){
             for (int j = i; j < nodes; j++){
-                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].x), 2)); 
-                counter++; 
+                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].x), 2));
+                counter++;
 
             }
-        } 
+        }
     }
 
     if (dimension == 3){
@@ -82,48 +83,47 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
         // produce random location for each vertex
         for (int i = 0; i < nodes; i++){
             vertices[i].x = rand_num();
-            vertices[i].y = rand_num(); 
-            vertices[i].z = rand_num(); 
+            vertices[i].y = rand_num();
+            vertices[i].z = rand_num();
 
         }
 
-        int counter = 0; 
+        int counter = 0;
         for (int i = 0; i <= nodes; i++){
             for (int j = i; j < nodes; j++){
-                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].y), 2) + pow((vertices[i].z - vertices[j].z), 2)); 
-                counter++; 
+                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].y), 2) + pow((vertices[i].z - vertices[j].z), 2));
+                counter++;
 
             }
-        } 
+        }
     }
 
     if (dimension == 4){
         // produce random location for each vertex
         for (int i = 0; i < nodes; i++){
             vertices[i].x = rand_num();
-            vertices[i].y = rand_num(); 
-            vertices[i].z = rand_num(); 
-            vertices[i].w = rand_num(); 
+            vertices[i].y = rand_num();
+            vertices[i].z = rand_num();
+            vertices[i].w = rand_num();
         }
 
-        int counter = 0; 
+        int counter = 0;
         for (int i = 0; i <= nodes; i++){
             for (int j = i; j < nodes; j++){
-                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].y), 2) + pow((vertices[i].z - vertices[j].z), 2) + pow((vertices[i].w - vertices[j].w), 2) ); 
-                counter++; 
+                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].y), 2) + pow((vertices[i].z - vertices[j].z), 2) + pow((vertices[i].w - vertices[j].w), 2) );
+                counter++;
 
             }
-        } 
+        }
 
     }
 
-    return 1;
+    return 0;
 
 }
 
 //Frees all memeory associated with a completeGraph
 void destroyCompleteGraph(completeGraph *graph) {
-
     assert(graph);
     free(graph->edges);
     free(graph);
@@ -164,8 +164,8 @@ static inline float getEdge(completeGraph *graph, unsigned from, unsigned to) {
     }
 }
 
-
-
+//Finds the index on the edge linking the vertices lowN and highN for
+//a graph with numNodes nodes.
 static inline unsigned calcIndex(unsigned lowN, unsigned highN,
                                   unsigned numNodes) {
 
@@ -215,9 +215,8 @@ float findMST_Weight(completeGraph *graph) {
     return 0;
 }
 
-float rand_num()
-{
-    float N = 100; 
-    float X = rand() / (double)(RAND_MAX);
-    return X; 
+//Use tick count as seed for RNG
+float rand_num() {
+    srand(clock());
+    return rand() / (double)(RAND_MAX);
 }
