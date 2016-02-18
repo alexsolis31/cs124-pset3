@@ -117,14 +117,16 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
         }
 
     }
-    int counter = 0;
+    //calcIndex testing
+    /*int counter = 0;
     for (int i = 0; i < nodes; i++) {
         for(int j = i+1; j < nodes; j++) {
             printf("i is %d j is %d counter is %d\n", i, j, counter);
+            printf("calc index is: %d\n", calcIndex(i, j, nodes));
             assert(graph->edges[counter] == graph->edges[calcIndex(i, j, nodes)]);
             counter++;
         }
-    }
+    }*/
 
     return 0;
 
@@ -191,30 +193,12 @@ static inline unsigned calcIndex(unsigned lowN, unsigned highN,
     else if (lowN == 1) {
         lowN_offset = numNodes - 1;
     }
+    //sum from numnodes-low to numnodes - 1
     else {
-        lowN_offset = ((((numNodes - 1) * numNodes) / 2) -
-                       (((numNodes - lowN - 1) * (numNodes - lowN - 2)) / 2));
+        lowN_offset = ((2*numNodes - lowN - 1) * lowN) / 2;
     }
     return lowN_offset + highN_offset;
-}  //motivating logic below
-//let's see: find beginning of "lowN" "zone"
-//offset into zone is highN - lowN - 1
-//so our function looks like: ((zoneCalc) + highN - lowN - 1)
-
-//how can we get beginning of lowN?
-/*
-0 --> 0
-1 --> numNodes - 1
-2 --> numNodes - 1 + numNodes - 2
-3 --> numNodes - 1 + numNodes - 2 + numNodes - 3
-......
-
-sum from (numNodes - low to numNodes - 1) with 0 if 0.
-(((numNodes - 1) * numNodes) / 2 - ((numNodes - i - 1)*(numNodes - i - 2)) / 2)
-
-
-*/
-//  sum from (numNodes - lowN) to (numNodes - 1)
+}
 
 
 //Returns the weight of the MST for the graph. Returns 0 on error.
