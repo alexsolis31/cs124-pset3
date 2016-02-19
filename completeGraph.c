@@ -3,6 +3,7 @@
 #include <math.h>
 #include <assert.h>
 #include "completeGraph.h"
+#include "minHeap.h"
 #include <time.h>
 
 typedef struct {
@@ -12,6 +13,8 @@ typedef struct {
     float w;
 
 } coordinate;
+
+//Andrew note: magic number 2 << 14.
 
 
 completeGraph *genCompleteGraph(unsigned numNodes) {
