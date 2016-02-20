@@ -5,7 +5,7 @@
 //For float payload
 typedef stuct minHeap {
     //pointer to array of vertex pointers
-    heapNode **vertex;
+    heapNode **vertexList;
     unsigned maxLen;
     unsigned heapLen;
 
@@ -17,7 +17,7 @@ minHeap *createMinHeap(unsigned maxLen);
 
 //Copies addresses of contents of list into a fresh heap then heapifies
 //Returns NULL on error
-minHeap *genMinHeapFromList(vertex *list);
+minHeap *genMinHeapFromList(vertex *list, unsigned listLen);
 
 //Destroys a minHeap
 void destroyMinHeap(minHeap *heap);

@@ -28,12 +28,17 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
        n = numNodes - 1 */
     graph->edges = calloc(((numNodes - 1) * numNodes) / 2, sizeof(float));
     if (!graph->edges) {
-        printf("Allocating graph with number of nodes: %d failed.\n", numNodes);
+        printf("Allocating graph edgeList with number of nodes: %d failed.\n", numNodes);
         free(graph);
         return NULL;
     }
 
     graph->vertexList = calloc(numNodes, sizeof(vertex));
+    if (!graph->vertexList) {
+        printf("Allocating graph vertexList with number of nodes: %d failed.\n", numNodes);
+        free(graph->edges);
+        free(graph);
+    }
 
     return graph;
 }
@@ -41,6 +46,7 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
 //Randomly populates graph by randomly placing nodes in dimension-cube
 //and assigning edges by Euclidean distance.
 //Returns 1 on error.
+//TODO: UPDATE
 int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
     int nodes = graph->numNodes;
@@ -133,6 +139,7 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 //Frees all memeory associated with a completeGraph
 void destroyCompleteGraph(completeGraph *graph) {
     assert(graph);
+    free(graph->vertexList)
     free(graph->edges);
     free(graph);
 }
