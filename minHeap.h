@@ -1,11 +1,13 @@
 #ifndef _minHeap_h
 #define _minHeap_h
 
+#include "completeGraph.h"
+
 
 //For float payload
-typedef stuct minHeap {
+typedef struct minHeap {
     //pointer to array of vertex pointers
-    heapNode **vertexList;
+    vertex **vertexList;
     unsigned maxLen;
     unsigned heapLen;
 
@@ -17,7 +19,7 @@ minHeap *createMinHeap(unsigned maxLen);
 
 //Copies addresses of contents of list into a fresh heap then heapifies
 //Returns NULL on error
-minHeap *genMinHeapFromList(vertex *list, unsigned listLen);
+minHeap *genMinHeapFromList(vertex *list, unsigned listLen, unsigned maxLen);
 
 //Destroys a minHeap
 void destroyMinHeap(minHeap *heap);
@@ -27,6 +29,9 @@ int minHeapInsert(vertex *payload, minHeap *heap);
 
 //Pops smallest value off heap and returns it.
 vertex *minHeapDeleteMin(minHeap *heap);
+
+//Rebalance heap
+void heapify(minHeap *heap);
 
 
 #endif

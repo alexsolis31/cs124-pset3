@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include "minHeap.h"
 
 //Declare our heap helpers, but privately
-void shift_down(heapNode **list, unsigned start, unsigned end);
-void heapify(heapNode **list, unsigned length);
+void shift_down(vertex **list, unsigned start, unsigned end);
+void shift_up(vertex **list, unsigned start, unsigned end);
+void swap(vertex **a, vertex **b);
 
 //Creates a minHeap of maximum length maxLen.
 //Returns NULL on error
@@ -12,14 +14,14 @@ minHeap *createMinHeap(unsigned maxLen) {
 
     assert(maxLen > 0);
 
-    heap = calloc(1, sizeof(minHeap));
+    minHeap *heap = calloc(1, sizeof(minHeap));
     if (!heap) {
         printf("Memory error: could not allocate heap struct.\n");
         return NULL;
     }
 
-    heap->list = calloc(maxLen, sizeof(heapNode *));
-    if (!heap->list) {
+    heap->vertexList = calloc(maxLen, sizeof(vertex *));
+    if (!heap->vertexList) {
         printf("Memory error: could not allocate heap list of lenght %d.\n", maxLen);
         free(heap);
         return NULL;
@@ -37,6 +39,11 @@ minHeap *genMinHeapFromList(vertex *list, unsigned listLen, unsigned maxHeapLen)
     minHeap *heap = createMinHeap(maxHeapLen);
     if (!heap) return NULL;
 
+    for (unsigned i = 0; i < listLen; i++) {
+        heap->vertexList[i] = &(list[i]);
+    }
+    heapify(heap);
+    return heap;
 }
 
 
@@ -45,14 +52,24 @@ void destroyMinHeap(minHeap *heap) {
 
     assert(heap);
 
-    free(heap->list);
+    free(heap->vertexList);
     free(heap);
 }
 
 
-
+//Should not be used but keep around just in case
 //Inserts payload into the heap. Returns 1 if heap is full
 int minHeapInsert(vertex *payload, minHeap *heap) {
+
+    assert(heap);
+    assert(payload);
+
+    if (heap->heapLen == heap->maxLen) return 1;
+
+    heap->vertexList[heap->heapLen - 1] = payload;
+    heap->heapLen++;
+    shift_up(heap->vertexList, 0, heap->heapLen - 1);
+    return 0;
 
 
 }
@@ -61,7 +78,12 @@ int minHeapInsert(vertex *payload, minHeap *heap) {
 //Pops smallest value off heap and returns it.
 vertex *minHeapDeleteMin(minHeap *heap) {
 
-
+    vertex *ret = heap->vertexList[0];
+    heap->vertexList[0] = heap->vertexList[heap->heapLen - 1];
+    heap->vertexList[heap->heapLen - 1] = NULL;
+    heap->heapLen--;
+    shift_down(heap->vertexList, 0, heap->heapLen - 1);
+    return ret;
 }
 
 
@@ -83,11 +105,11 @@ void shift_down(vertex **list, unsigned start, unsigned end) {
 		int child = cur_root * 2 + 1;
 		node_to_swap = cur_root;
 
-		if (list[cur_root] < list[child]) {
+		if (list[cur_root]->distanceToPrevVertex > list[child]->distanceToPrevVertex) {
 			node_to_swap = child;
 		}
 		//Handle right side
-		if (child + 1 <= end && list[node_to_swap] < list[child + 1]) {
+		if (child + 1 <= end && list[node_to_swap]->distanceToPrevVertex > list[child + 1]->distanceToPrevVertex) {
 			node_to_swap = child + 1;
 		}
 		if (node_to_swap == cur_root) {
@@ -100,11 +122,26 @@ void shift_down(vertex **list, unsigned start, unsigned end) {
 	}
 }
 
-void heapify(vertex **list, unsigned length) {
+void shift_up(vertex **list, unsigned start, unsigned end) {
+
+
+}
+
+void heapify(minHeap *heap) {
+
+    vertex **list = heap->vertexList;
+    unsigned length = heap->heapLen;
+
 	//Find index of lowest possible parent node
 	int start = (length - 2) / 2;
 	while(start >= 0) {
 		shift_down(list, start, length - 1);
 		start--;
 	}
+}
+
+void swap(vertex **a, vertex **b) {
+    vertex *temp = *a;
+    *a = *b;
+    *b = temp;
 }

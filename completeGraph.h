@@ -6,7 +6,7 @@ typedef struct vertex {
     //name
     unsigned vName; //index in vertex list in complete graph
     //MST construction parameters
-    vertex *prevVertex;
+    struct vertex *prevVertex;
     float distanceToPrevVertex;
 
     //location

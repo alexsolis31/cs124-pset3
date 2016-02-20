@@ -39,6 +39,10 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
         free(graph->edges);
         free(graph);
     }
+    for (unsigned i = 0; i < numNodes; i++) {
+        graph->vertexList[i].vName = i;
+        graph->vertexList[i].distanceToPrevVertex = INFINITY;
+    }
 
     return graph;
 }
@@ -52,8 +56,6 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
     int nodes = graph->numNodes;
     int num_edges = (nodes*(nodes-1))/2;
 
-    // array of structs to hold vertex coordinates
-    coordinate vertices [nodes];
 
     // populate the edge array for each dimension
     if (dimension == 0){
@@ -66,8 +68,8 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
         // produce random location for each vertex
         for (int i = 0; i < nodes; i++){
-            vertices[i].x = rand_num();
-            vertices[i].y = rand_num();
+            graph->vertexList[i].x = rand_num();
+            graph->vertexList[i].y = rand_num();
 
         }
 
@@ -75,7 +77,7 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
         int counter = 0;
         for (int i = 0; i <= nodes; i++){
             for (int j = (i+1); j < nodes; j++){
-                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].x), 2));
+                graph->edges[counter] = sqrt( pow((graph->vertexList[i].x - graph->vertexList[j].x), 2)  +  pow((graph->vertexList[i].y - graph->vertexList[j].x), 2));
                 counter++;
 
             }
@@ -86,16 +88,16 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
         // produce random location for each vertex
         for (int i = 0; i < nodes; i++){
-            vertices[i].x = rand_num();
-            vertices[i].y = rand_num();
-            vertices[i].z = rand_num();
+            graph->vertexList[i].x = rand_num();
+            graph->vertexList[i].y = rand_num();
+            graph->vertexList[i].z = rand_num();
 
         }
 
         int counter = 0;
         for (int i = 0; i <= nodes; i++){
             for (int j = (i+1); j < nodes; j++){
-                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].y), 2) + pow((vertices[i].z - vertices[j].z), 2));
+                graph->edges[counter] = sqrt( pow((graph->vertexList[i].x - graph->vertexList[j].x), 2)  +  pow((graph->vertexList[i].y - graph->vertexList[j].y), 2) + pow((graph->vertexList[i].z - graph->vertexList[j].z), 2));
                 counter++;
 
             }
@@ -105,16 +107,16 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
     if (dimension == 4){
         // produce random location for each vertex
         for (int i = 0; i < nodes; i++){
-            vertices[i].x = rand_num();
-            vertices[i].y = rand_num();
-            vertices[i].z = rand_num();
-            vertices[i].w = rand_num();
+            graph->vertexList[i].x = rand_num();
+            graph->vertexList[i].y = rand_num();
+            graph->vertexList[i].z = rand_num();
+            graph->vertexList[i].w = rand_num();
         }
 
         int counter = 0;
         for (int i = 0; i <= nodes; i++){
             for (int j = (i+1); j < nodes; j++){
-                graph->edges[counter] = sqrt( pow((vertices[i].x - vertices[j].x), 2)  +  pow((vertices[i].y - vertices[j].y), 2) + pow((vertices[i].z - vertices[j].z), 2) + pow((vertices[i].w - vertices[j].w), 2) );
+                graph->edges[counter] = sqrt( pow((graph->vertexList[i].x - graph->vertexList[j].x), 2)  +  pow((graph->vertexList[i].y - graph->vertexList[j].y), 2) + pow((graph->vertexList[i].z - graph->vertexList[j].z), 2) + pow((graph->vertexList[i].w - graph->vertexList[j].w), 2) );
                 counter++;
 
             }
@@ -139,7 +141,7 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 //Frees all memeory associated with a completeGraph
 void destroyCompleteGraph(completeGraph *graph) {
     assert(graph);
-    free(graph->vertexList)
+    free(graph->vertexList);
     free(graph->edges);
     free(graph);
 }
