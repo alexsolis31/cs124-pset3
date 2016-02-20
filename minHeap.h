@@ -19,7 +19,7 @@ minHeap *createMinHeap(unsigned maxLen);
 
 //Copies addresses of contents of list into a fresh heap then heapifies
 //Returns NULL on error
-minHeap *genMinHeapFromList(vertex *list, unsigned listLen, unsigned maxLen);
+minHeap *genMinHeapFromList(vertex *list, unsigned listLen, unsigned maxLen, int shouldHeapify);
 
 //Destroys a minHeap
 void destroyMinHeap(minHeap *heap);

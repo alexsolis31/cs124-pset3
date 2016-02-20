@@ -65,6 +65,7 @@ float findMST_Weight(completeGraph *graph);
 static inline float rand_num();
 
 //List has length completeGraph->(numNodes - 1)
+//Returns list of edgesMaps for each edge connecting to v
 edgeMap *getEdgesToVertex(completeGraph *g, vertex *v);
 
 #endif

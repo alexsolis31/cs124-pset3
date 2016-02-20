@@ -34,7 +34,7 @@ minHeap *createMinHeap(unsigned maxLen) {
 
 //Copies addresses of contents of list into a fresh heap then heapifies
 //Returns NULL on error
-minHeap *genMinHeapFromList(vertex *list, unsigned listLen, unsigned maxHeapLen) {
+minHeap *genMinHeapFromList(vertex *list, unsigned listLen, unsigned maxHeapLen, int shouldHeapify) {
 
     minHeap *heap = createMinHeap(maxHeapLen);
     if (!heap) return NULL;
@@ -42,7 +42,9 @@ minHeap *genMinHeapFromList(vertex *list, unsigned listLen, unsigned maxHeapLen)
     for (unsigned i = 0; i < listLen; i++) {
         heap->vertexList[i] = &(list[i]);
     }
-    heapify(heap);
+    if (shouldHeapify) {
+        heapify(heap);
+    }
     return heap;
 }
 

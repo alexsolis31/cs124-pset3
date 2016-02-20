@@ -227,6 +227,8 @@ static inline float rand_num() {
     return rand() / (double)(RAND_MAX);
 }
 
+//List has length completeGraph->(numNodes - 1)
+//Returns list of edgesMaps for each edge connecting to v
 edgeMap *getEdgesToVertex(completeGraph *g, vertex *v) {
     (void) g;
     (void) v;
