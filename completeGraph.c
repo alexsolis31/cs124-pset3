@@ -226,3 +226,9 @@ static inline float rand_num() {
     rand_calls++;
     return rand() / (double)(RAND_MAX);
 }
+
+edgeMap *getEdgesToVertex(completeGraph *g, vertex *v) {
+    (void) g;
+    (void) v;
+    return NULL;
+}

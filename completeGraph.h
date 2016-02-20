@@ -27,6 +27,11 @@ typedef struct completeGraph {
 
 } completeGraph;
 
+typdef struct edgeMap {
+    vertex *v;
+    float distance;
+} edgeMap;
+
 //Allocates a completeGraph with numNodes nodes.
 //Returns NULL on error
 completeGraph *genCompleteGraph(unsigned numNodes);
@@ -56,5 +61,8 @@ float findMST_Weight(completeGraph *graph);
 
 // generate a random number between [0,1]
 static inline float rand_num();
+
+//List has length completeGraph->(numNodes - 1)
+edgeMap *getEdgesToVertex(completeGraph *g, vertex *v);
 
 #endif
