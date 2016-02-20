@@ -19,7 +19,9 @@ typedef struct vertex {
 
 typedef struct completeGraph {
 
+    //pointer to an array of vertex structs. So use vertexList[i].attribute
     vertex *vertexList;
+    //pointer to an array of edges
     float *edges;
     unsigned numNodes; //len(edges) = (num_nodes)(num_nodes - 1) / 2
 

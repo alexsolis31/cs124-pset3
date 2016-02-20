@@ -15,23 +15,25 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
     assert(numNodes != 0);
 
     //allocate Graph structure and error handle
-    completeGraph *graph = malloc(sizeof(completeGraph));
-    if (graph == NULL) {
+    completeGraph *graph = calloc(1, sizeof(completeGraph));
+    if (!graph) {
         printf("Allocating Graph structure failed.\n");
         return NULL;
     }
-    graph->edges = NULL;
     graph->numNodes = numNodes;
+
     /* Allocate edge array and error handle
        Since we have complete graphs, store each edge once, and use the fact
        that 1 + 2 + ... + n = (n + 1) * n / 2 to determine array len with
        n = numNodes - 1 */
     graph->edges = calloc(((numNodes - 1) * numNodes) / 2, sizeof(float));
-    if (graph->edges == NULL) {
+    if (!graph->edges) {
         printf("Allocating graph with number of nodes: %d failed.\n", numNodes);
         free(graph);
         return NULL;
     }
+
+    graph->vertexList = calloc(numNodes, sizeof(vertex));
 
     return graph;
 }
