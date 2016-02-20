@@ -15,6 +15,8 @@ typedef struct vertex {
     float z;
     float w;
 
+    int visited;
+
 } vertex;
 
 typedef struct completeGraph {
