@@ -124,7 +124,13 @@ void shift_down(vertex **list, unsigned start, unsigned end) {
 
 void shift_up(vertex **list, unsigned start, unsigned end) {
 
+    if (end == start) return;
+    int parent = (end - 1) / 2;
 
+    if (list[parent]->distanceToPrevVertex > list[end]->distanceToPrevVertex) {
+        swap(&list[parent], &list[end]);
+        shift_up(list, start, parent);
+    }
 }
 
 void heapify(minHeap *heap) {
