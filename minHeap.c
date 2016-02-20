@@ -3,8 +3,8 @@
 #include <assert.h>
 
 //Declare our heap helpers, but privately
-void shift_down(float *list, unsigned start, unsigned end);
-void heapify(float *list, unsigned length);
+void shift_down(heapNode **list, unsigned start, unsigned end);
+void heapify(heapNode **list, unsigned length);
 
 //Creates a minHeap of maximum length maxLen.
 //Returns NULL on error
@@ -18,7 +18,7 @@ minHeap *createMinHeap(unsigned maxLen) {
         return NULL;
     }
 
-    heap->list = calloc(maxLen, sizeof(float));
+    heap->list = calloc(maxLen, sizeof(heapNode *));
     if (!heap->list) {
         printf("Memory error: could not allocate heap list of lenght %d.\n", maxLen);
         free(heap);
@@ -36,21 +36,21 @@ void destroyMinHeap(minHeap *heap) {
 
     assert(heap);
 
-    
-
-
+    free(heap->list);
+    free(heap);
 }
 
 
+
 //Inserts payload into the heap. Returns 1 if heap is full
-int minHeapInsert(float payload, minHeap *heap) {
+int minHeapInsert(vertex *payload, minHeap *heap) {
 
 
 }
 
 
 //Pops smallest value off heap and returns it.
-float minHeapDeleteMin(minHeap *heap) {
+vertex *minHeapDeleteMin(minHeap *heap) {
 
 
 }
@@ -61,7 +61,7 @@ float minHeapDeleteMin(minHeap *heap) {
 
 //Make list[start...end]; a valid heap assuming
 //List[start+1...end] is.
-void shift_down(float *list, unsigned start, unsigned end) {
+void shift_down(vertex **list, unsigned start, unsigned end) {
 //look at start and its children. Swap start with
 //larger of two children. May need to swap down from
 //There as well if this breaks the heap property for the
@@ -91,7 +91,7 @@ void shift_down(float *list, unsigned start, unsigned end) {
 	}
 }
 
-void heapify(float *list, unsigned length) {
+void heapify(vertex **list, unsigned length) {
 	//Find index of lowest possible parent node
 	int start = (length - 2) / 2;
 	while(start >= 0) {
