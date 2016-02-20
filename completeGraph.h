@@ -29,7 +29,7 @@ typedef struct completeGraph {
 
 } completeGraph;
 
-typdef struct edgeMap {
+typedef struct edgeMap {
     vertex *v;
     float distance;
 } edgeMap;
