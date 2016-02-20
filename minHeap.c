@@ -30,6 +30,12 @@ minHeap *createMinHeap(unsigned maxLen) {
     return heap;
 }
 
+//Copies addresses of contents of list into a fresh heap then heapifies
+//Returns NULL on error
+minHeap *genMinHeapFromList(vertex *list) {
+    
+}
+
 
 //Destroys a minHeap
 void destroyMinHeap(minHeap *heap) {

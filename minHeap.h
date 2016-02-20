@@ -1,16 +1,10 @@
 #ifndef _minHeap_h
 #define _minHeap_h
 
-typedef struct vertex {
-    unsigned vNum;
-    vertex *prevVertex;
-    float distance;
-
-} vertex;
 
 //For float payload
 typedef stuct minHeap {
-
+    //pointer to array of vertex pointers
     heapNode **vertex;
     unsigned maxLen;
     unsigned heapLen;
@@ -20,6 +14,10 @@ typedef stuct minHeap {
 
 //Creates a minHeap of maximum length maxLen
 minHeap *createMinHeap(unsigned maxLen);
+
+//Copies addresses of contents of list into a fresh heap then heapifies
+//Returns NULL on error
+minHeap *genMinHeapFromList(vertex *list);
 
 //Destroys a minHeap
 void destroyMinHeap(minHeap *heap);

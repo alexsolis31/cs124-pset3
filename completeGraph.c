@@ -6,13 +6,6 @@
 #include "minHeap.h"
 #include <time.h>
 
-typedef struct {
-    float x;
-    float y;
-    float z;
-    float w;
-
-} coordinate;
 
 //Andrew note: magic number 2 << 14.
 

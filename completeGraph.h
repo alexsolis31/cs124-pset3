@@ -1,8 +1,25 @@
 #ifndef _completeGraph_h
 #define _completeGraph_h
 
+typedef struct vertex {
+
+    //name
+    unsigned vName; //index in vertex list in complete graph
+    //MST construction parameters
+    vertex *prevVertex;
+    float distanceToPrevVertex;
+
+    //location
+    float x;
+    float y;
+    float z;
+    float w;
+
+} vertex;
+
 typedef struct completeGraph {
 
+    vertex *vertexList;
     float *edges;
     unsigned numNodes; //len(edges) = (num_nodes)(num_nodes - 1) / 2
 
