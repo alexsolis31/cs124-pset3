@@ -230,7 +230,18 @@ static inline float rand_num() {
 //List has length completeGraph->(numNodes - 1)
 //Returns list of edgesMaps for each edge connecting to v
 edgeMap *getEdgesToVertex(completeGraph *g, vertex *v) {
-    (void) g;
-    (void) v;
-    return NULL;
+
+    edgeMap *mapList = calloc(g->numNodes - 1, sizeof(edgeMap));
+    if (!mapList) {
+        printf("Memory error: failed to generate mapList for vertex %d.\n", v->vName);
+        return NULL;
+    }
+
+    for(int i = 0; i < g->numNodes - 1; i++) {
+        if (i != v->vName) {
+            mapList[i].v = &g->vertexList[i];
+            mapList[i].distance = getEdge(g, i, v->vName);
+        }
+    }
+    return mapList;
 }
