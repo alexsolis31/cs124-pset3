@@ -131,7 +131,68 @@ int main(void) {
     printf("Second round success. Heaps have deleteMin working\n");
 
     //insert a few heap elements
+    minHeapInsert(&d, heap1);
+    printf("here\n");
+    minHeapInsert(&a, heap1);
+
+    minHeapInsert(&e, heap2);
+    minHeapInsert(&f, heap2);
+    minHeapInsert(&c, heap2);
+    minHeapInsert(&a, heap2);
+
+    minHeapInsert(&b, heap3);
+    minHeapInsert(&g, heap3);
+    minHeapInsert(&h, heap3);
+
+    minHeapInsert(&d, heap4);
+    minHeapInsert(&e, heap4);
+    minHeapInsert(&k, heap4);
+    minHeapInsert(&a, heap4);
+    minHeapInsert(&c, heap4);
+    minHeapInsert(&f, heap4);
+
+    minHeapInsert(&d, heap5);
+    minHeapInsert(&e, heap5);
+
+    minHeapInsert(&j, heap6);
 
     //check heap property
+    //check heap property
+    if (!hasHeapProp(heap1)) {
+         printf("heap1 does not have prop after inserting\n");
+         return 1;
+    }
+    if (!hasHeapProp(heap2)) {
+         printf("heap2 does not have prop after inserting\n");
+         return 1;
+    }
+    if (!hasHeapProp(heap3)) {
+         printf("heap3 does not have prop after inserting\n");
+         return 1;
+    }
+    if (!hasHeapProp(heap4)) {
+         printf("heap4 does not have prop after inserting\n");
+         return 2;
+    }
+    if (!hasHeapProp(heap5)) {
+         printf("heap5 does not have prop after inserting\n");
+         return 1;
+    }
+    if (!hasHeapProp(heap6)) {
+         printf("heap6 does not have prop after inserting\n");
+         return 1;
+    }
+    printf("Second round success. Heaps have insert working\n");
 
+    destroyMinHeap(heap1);
+    destroyMinHeap(heap2);
+    destroyMinHeap(heap3);
+    destroyMinHeap(heap4);
+    destroyMinHeap(heap5);
+    destroyMinHeap(heap6);
+
+    printf("destroying heaps works\n");
+
+    printf("all heap tests passed\n");
+    return 0;
 }

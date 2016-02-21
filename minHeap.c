@@ -68,9 +68,7 @@ int minHeapInsert(vertex *payload, minHeap *heap) {
     assert(payload);
     assert(heap->heapLen != heap->maxLen);
 
-    if (heap->heapLen == heap->maxLen) return 1;
-
-    heap->vertexList[heap->heapLen - 1] = payload;
+    heap->vertexList[heap->heapLen] = payload;
     heap->heapLen++;
     shift_up(heap->vertexList, 0, heap->heapLen - 1);
     return 0;
