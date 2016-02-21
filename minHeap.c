@@ -42,6 +42,7 @@ minHeap *genMinHeapFromList(vertex *list, unsigned listLen, unsigned maxHeapLen,
     for (unsigned i = 0; i < listLen; i++) {
         heap->vertexList[i] = &(list[i]);
     }
+    heap->heapLen = listLen;
     if (shouldHeapify) {
         heapify(heap);
     }
@@ -65,6 +66,7 @@ int minHeapInsert(vertex *payload, minHeap *heap) {
 
     assert(heap);
     assert(payload);
+    assert(heap->heapLen != heap->maxLen);
 
     if (heap->heapLen == heap->maxLen) return 1;
 
@@ -80,10 +82,15 @@ int minHeapInsert(vertex *payload, minHeap *heap) {
 //Pops smallest value off heap and returns it.
 vertex *minHeapDeleteMin(minHeap *heap) {
 
+    assert(heap->heapLen);
+
     vertex *ret = heap->vertexList[0];
     heap->vertexList[0] = heap->vertexList[heap->heapLen - 1];
     heap->vertexList[heap->heapLen - 1] = NULL;
     heap->heapLen--;
+
+    if (heap->heapLen == 0) return ret;
+
     shift_down(heap->vertexList, 0, heap->heapLen - 1);
     return ret;
 }
@@ -99,19 +106,19 @@ void shift_down(vertex **list, unsigned start, unsigned end) {
 //larger of two children. May need to swap down from
 //There as well if this breaks the heap property for the
 //Sub heap
-	int cur_root = start;
-	int node_to_swap;
+	unsigned cur_root = start;
+	unsigned node_to_swap;
 	//This checks if root can have children
 	while(cur_root * 2 + 1 <= end) {
 
-		int child = cur_root * 2 + 1;
+		unsigned child = cur_root * 2 + 1;
 		node_to_swap = cur_root;
 
 		if (list[cur_root]->distanceToPrevVertex > list[child]->distanceToPrevVertex) {
 			node_to_swap = child;
 		}
 		//Handle right side
-		if (child + 1 <= end && list[node_to_swap]->distanceToPrevVertex > list[child + 1]->distanceToPrevVertex) {
+		if (list[child + 1] && child + 1 <= end && list[node_to_swap]->distanceToPrevVertex > list[child + 1]->distanceToPrevVertex) {
 			node_to_swap = child + 1;
 		}
 		if (node_to_swap == cur_root) {
@@ -139,6 +146,9 @@ void heapify(minHeap *heap) {
 
     vertex **list = heap->vertexList;
     unsigned length = heap->heapLen;
+    if (length == 1) {
+        return;
+    }
 
 	//Find index of lowest possible parent node
 	int start = (length - 2) / 2;
