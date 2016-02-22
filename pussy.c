@@ -3,8 +3,10 @@
 #include <math.h>
 #include <assert.h>
 #include "completeGraph.h"
+#include <time.h>
 
-
+unsigned rand_calls = 0;
+unsigned seeded_once = 0;
 
 typedef struct {
     float x; 
@@ -13,9 +15,17 @@ typedef struct {
 
 float rand_num()
 {
-	float N = 100; 
-	float X = rand() / (double)(RAND_MAX);
-	return X; 
+	if (!seeded_once) {
+		srand(time(NULL));
+		seeded_once = 1;
+	}
+	if (rand_calls > 1000) {
+		srand(clock() + time(NULL));
+		rand_calls = 0;
+	}
+	rand_calls++;
+	return rand() / (double)(RAND_MAX);
+	
 }
 
 
@@ -56,6 +66,15 @@ int main (int argc, char **argv) {
     printf("%f\n", graph_edges[1]);
    	printf("%f\n", graph_edges[2]); 
    	printf("%f\n", graph_edges[3]);  
+
+   	printf("Vertices:" );
+
+   	for (int i = 0; i <= numNodes; i++){
+   		printf("%f ", vertices[i].x); 
+   		printf("%f\n", vertices[i].y); 
+
+   	}
+
 
 
 }

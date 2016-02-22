@@ -9,50 +9,55 @@
 // algorithm: given population, find MST
 // given: heap structure, populated graph, 
 
-int Prims(completeGraph *graph){
+int Prims(completeGraph *graph) {
 
-	n = graph->numNodes
+	unsigned n = graph->numNodes;
 	edgeMap* edges; 
-
-	// create the minHeap and initialize with all the vertices
-	minHeap vertexHeap = genMinHeapFromList(graph->vertexList, n, n, 1);
+	vertex *smallestVertex;
 
 	// set of vertices, initially empty
-	vertex* growingSet = calloc(n, sizeof(vertex));
+	vertex **growingSet = calloc(n, sizeof(vertex *));
 
-	minHeap* vertexHeap = createMinHeap(n);
-	mimHeapInsert(graph->vertexList[0], vertexHeap);
-
-	while(vertexHeap->heapLen){
+	minHeap *vertexHeap = createMinHeap(n);
+	minHeapInsert(&graph->vertexList[0], vertexHeap);
+	int firstTime = 1;
+	unsigned counter = 0;
+	while(vertexHeap->heapLen) {
 		smallestVertex = minHeapDeleteMin(vertexHeap);
 
 		// insert smallest Vertex into growing set
-		smallestVertex = growingSet[i] ;
+		growingSet[counter] = smallestVertex;
 
 		// mark that the vertex is in the set S 
-		graph->vertexList->visited = 1; 
+		smallestVertex->visited = 1; 
+		if (firstTime) {
+			firstTime = 0;
+			smallestVertex->distanceToPrevVertex = 0;
+		}
 
 		edges = getEdgesToVertex(graph, smallestVertex);
 
-		for (int i = 0; i <= (n-1); i++){
-			if (graph->vertexList[i]->visited){
+		for (int i = 0; i < (n-1); i++) {
+			if (edges[i].v->visited) {
 				break;
 			}
 
 			else {
-				if(graph->vertexList[i]->distance == INFINITY){
-					minHeapInsert(graph->vertexList[i], vertexHeap);
+				if(edges[i].v->distanceToPrevVertex == INFINITY){
+					minHeapInsert(edges[i].v, vertexHeap);
 				}
 
-				if (edges->distance < edges->vertex->distanceToPrevVertex){
-					vertex->distanceToPrevVertex = edges->distance
-					edges->vertex->prevVertex = smallestVertex;
+				if (edges[i].distance < edges[i].v->distanceToPrevVertex) {
+					edges[i].v->distanceToPrevVertex = edges[i].distance;
+					edges[i].v->prevVertex = smallestVertex;
 				}
 			}
 
 		}
-
+		free(edges);
 		heapify(vertexHeap);
-	
+		counter++;
+	}
+	return 0;
 	
 }

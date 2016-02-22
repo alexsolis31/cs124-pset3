@@ -144,7 +144,7 @@ void heapify(minHeap *heap) {
 
     vertex **list = heap->vertexList;
     unsigned length = heap->heapLen;
-    if (length == 1) {
+    if (length == 1 || length == 0) {
         return;
     }
 
