@@ -3,25 +3,25 @@
 #include <stdlib.h>
 #include <math.h>
 
-vertex a = {0, NULL, INFINITY, 0, 0, 0, 0, 0};
+vertex a = {0, NULL, INFINITY, 0, 0, 0, 0, 0, NULL, 0};
 
-vertex b = {1, NULL, 1.15f, 0, 0, 0, 0, 0};
+vertex b = {1, NULL, 1.15f, 0, 0, 0, 0, 0, NULL, 0};
 
-vertex c = {2, NULL, .97f, 0, 0, 0, 0, 0};
+vertex c = {2, NULL, .97f, 0, 0, 0, 0, 0, NULL, 0};
 
-vertex d = {3, NULL, .88f, 0, 0, 0, 0, 0};
+vertex d = {3, NULL, .88f, 0, 0, 0, 0, 0, NULL, 0};
 
-vertex e = {4, NULL, .76f, 0, 0, 0, 0, 0};
+vertex e = {4, NULL, .76f, 0, 0, 0, 0, 0, NULL, 0};
 
-vertex f = {5, NULL, .65f, 0, 0, 0, 0, 0};
+vertex f = {5, NULL, .65f, 0, 0, 0, 0, 0, NULL, 0};
 
-vertex g = {6, NULL, .54f, 0, 0, 0, 0, 0};
+vertex g = {6, NULL, .54f, 0, 0, 0, 0, 0, NULL, 0};
 
-vertex h = {7, NULL, .43f, 0, 0, 0, 0, 0};
+vertex h = {7, NULL, .43f, 0, 0, 0, 0, 0, NULL, 0};
 
-vertex k = {8, NULL, .21f, 0, 0, 0, 0, 0};
+vertex k = {8, NULL, .21f, 0, 0, 0, 0, 0, NULL, 0};
 
-vertex j = {9, NULL, .11f, 0, 0, 0, 0, 0};
+vertex j = {9, NULL, .11f, 0, 0, 0, 0, 0, NULL, 0};
 
 int hasHeapProp(minHeap *h) {
 
