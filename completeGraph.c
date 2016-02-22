@@ -223,10 +223,10 @@ float findMST_Weight(completeGraph *graph) {
 }
 
 //Use tick count and clock as seed for RNG
-unsigned rand_calls = 0;
+unsigned rand_calls = 1001;
 
 static inline float rand_num() {
-
+    int seed;
     if (rand_calls > 1000) {
         srand(time(NULL) + clock());
         rand_calls = 0;
