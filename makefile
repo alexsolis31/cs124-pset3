@@ -9,3 +9,4 @@ heapTest: heapTest.c minHeap.c completeGraph.c
 
 clean:
 	rm randmst
+	rm heapTest
