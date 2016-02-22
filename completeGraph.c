@@ -78,7 +78,7 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
             graph->vertexList[i].y = rand_num();
 
         }
-        printf("here\n");
+        //printf("here\n");
         // edge array updated to hold euclidean distance between vertex (i,j)
         int counter = 0;
         for (int i = 0; i < nodes; i++){
@@ -222,7 +222,7 @@ float findMST_Weight(completeGraph *graph) {
     for (int i = 0; i < graph->numNodes; i++) {
         weight += graph->vertexList[i].distanceToPrevVertex;
     }
-    printf("weight is: %f\n", weight);
+    //printf("weight is: %f\n", weight);
     return weight;
 }
 
