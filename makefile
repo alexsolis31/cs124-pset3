@@ -10,3 +10,7 @@ heapTest: heapTest.c minHeap.c completeGraph.c
 clean:
 	rm randmst
 	rm heapTest
+	
+prims: prims.c minHeap.c completeGraph.c 
+	gcc -o prims prims.c minHeap.c completeGraph.c -I . -O0
+
