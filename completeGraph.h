@@ -26,6 +26,7 @@ typedef struct completeGraph {
     //pointer to an array of edges
     float *edges;
     unsigned numNodes; //len(edges) = (num_nodes)(num_nodes - 1) / 2
+    unsigned dimension;
 
 } completeGraph;
 
