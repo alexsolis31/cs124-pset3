@@ -45,6 +45,9 @@ randmst flag numPoints numTrials dimension.\n");
     int err;
     float curWeight;
     for(unsigned i = 0; i < numTrials; i++) {
+        if (graph == NULL) {
+            graph = genCompleteGraph(numPoints);
+        }
 
         //reinitialize graph
         err = eucPopulateCompleteGraph(graph, dimension);
@@ -64,6 +67,8 @@ randmst flag numPoints numTrials dimension.\n");
             return 1;
         }
         treeWeights[i] = curWeight;
+        destroyCompleteGraph(graph);
+        graph = NULL;
     }
 
     //find the average MST weight
