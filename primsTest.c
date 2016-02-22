@@ -87,38 +87,37 @@ testGraph3->numNodes = 5;
 float weight3 = findMST_Weight(testGraph3);
 
 
-// printf("The weight of the Test Graph: %f\n", weight3);
+ printf("The weight of the Test Graph: %f\n", weight3);
 
 // **************************************************************
 // case 4: some edges are the same 
 // **************************************************************
+
 unsigned nodes4 = 4; 
 completeGraph *testGraph4 = genCompleteGraph(nodes4);
 
-vertex l = {1, NULL, INFINITY, 0, 0, 0, 0, 0};
-vertex m = {2, NULL, INFINITY, 0, 0, 0, 0, 0};
-vertex n = {3, NULL, INFINITY, 0, 0, 0, 0, 0};
-vertex o = {4, NULL, INFINITY, 0, 0, 0, 0, 0};
+vertex t = {0, NULL, INFINITY, 0, 0, 0, 0, 0};
+vertex u = {1, NULL, INFINITY, 0, 0, 0, 0, 0};
+vertex v = {2, NULL, INFINITY, 0, 0, 0, 0, 0};
+vertex w = {3, NULL, INFINITY, 0, 0, 0, 0, 0};
 
 float edgeList4[6] = {3, 3, 10, 100, 3, 2};
 
 
 testGraph4->edges = edgeList4; 
 
-testGraph4->vertexList[0] = l; 
-testGraph4->vertexList[1] = m; 
-testGraph4->vertexList[2] = n; 
-testGraph4->vertexList[3] = o; 
+testGraph4->vertexList[0] = g; 
+testGraph4->vertexList[1] = h; 
+testGraph4->vertexList[2] = i; 
+testGraph4->vertexList[3] = j; 
 
-
-testGraph4->numNodes = 5; 
+testGraph4->numNodes = 4; 
 
 
 float weight4 = findMST_Weight(testGraph4);
 
 
-printf("The weight of the Test Graph: %f\n", weight4);
-
+ printf("The weight of the Test Graph: %f\n", weight4);
 
 }
 
