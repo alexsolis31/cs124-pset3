@@ -72,7 +72,7 @@ randmst flag numPoints numTrials dimension.\n");
     }
 
     //find the average MST weight
-    float averageWeight = 0;
+    float averageWeight = 0.0f;
     for (unsigned i = 0; i < numTrials; i++) {
         averageWeight += treeWeights[i];
     }
