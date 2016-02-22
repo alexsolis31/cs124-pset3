@@ -17,6 +17,9 @@ typedef struct vertex {
 
     int visited;
 
+    edgeMap **edges;
+    unsigned edgesLen;
+
 } vertex;
 
 typedef struct completeGraph {

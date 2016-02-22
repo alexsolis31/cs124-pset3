@@ -1,8 +1,9 @@
 #include "minHeap.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
-vertex a = {0, NULL, 1.23f, 0, 0, 0, 0, 0};
+vertex a = {0, NULL, INFINITY, 0, 0, 0, 0, 0};
 
 vertex b = {1, NULL, 1.15f, 0, 0, 0, 0, 0};
 
