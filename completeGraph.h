@@ -1,6 +1,8 @@
 #ifndef _completeGraph_h
 #define _completeGraph_h
 
+typedef struct edgeMap edgeMap; 
+
 typedef struct vertex {
 
     //name
