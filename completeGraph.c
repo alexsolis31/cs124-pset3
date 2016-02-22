@@ -9,7 +9,7 @@
 
 //Andrew note: magic number 2 << 14.
 
-int Prims(completeGraph *graph);
+int prims(completeGraph *graph);
 
 
 completeGraph *genCompleteGraph(unsigned numNodes) {
@@ -212,8 +212,14 @@ static inline unsigned calcIndex(unsigned lowN, unsigned highN,
 
 //Returns the weight of the MST for the graph. Returns 0 on error.
 float findMST_Weight(completeGraph *graph) {
-    (void) graph;
-    return 1.0f;
+    prims(graph);
+    float weight = 0;
+
+    for (int i = 0; i <= graph->numNodes; i++) {
+        weight += graph->vertexList[i].distanceToPrevVertex;
+    }
+
+    return weight;
 }
 
 //Use tick count and clock as seed for RNG
@@ -251,7 +257,7 @@ edgeMap *getEdgesToVertex(completeGraph *g, vertex *v) {
 // algorithm: given population, find MST
 // given: heap structure, populated graph, 
 
-int Prims(completeGraph *graph) {
+int prims(completeGraph *graph) {
 
     unsigned n = graph->numNodes;
     edgeMap* edges; 
