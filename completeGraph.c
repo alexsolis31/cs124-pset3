@@ -218,7 +218,7 @@ float findMST_Weight(completeGraph *graph) {
     for (int i = 0; i <= graph->numNodes; i++) {
         weight += graph->vertexList[i].distanceToPrevVertex;
     }
-
+    printf("weight is: %f\n", weight);
     return weight;
 }
 
@@ -245,22 +245,25 @@ edgeMap *getEdgesToVertex(completeGraph *g, vertex *v) {
         return NULL;
     }
 
+    int index = 0;
     for(int i = 0; i < g->numNodes - 1; i++) {
-        if (i != v->vName) {
-            mapList[i].v = &g->vertexList[i];
-            mapList[i].distance = getEdge(g, i, v->vName);
+        if (i == v->vName) {
+            index++;
         }
+        mapList[i].v = &g->vertexList[index];
+        mapList[i].distance = getEdge(g, index, v->vName);
+        index++;
     }
     return mapList;
 }
 
 // algorithm: given population, find MST
-// given: heap structure, populated graph, 
+// given: heap structure, populated graph,
 
 int prims(completeGraph *graph) {
 
     unsigned n = graph->numNodes;
-    edgeMap* edges; 
+    edgeMap* edges;
     vertex *smallestVertex;
 
     // set of vertices, initially empty
@@ -270,42 +273,38 @@ int prims(completeGraph *graph) {
     minHeapInsert(&graph->vertexList[0], vertexHeap);
     int firstTime = 1;
     unsigned counter = 0;
+
     while(vertexHeap->heapLen) {
         smallestVertex = minHeapDeleteMin(vertexHeap);
-
         // insert smallest Vertex into growing set
         growingSet[counter] = smallestVertex;
-
-        // mark that the vertex is in the set S 
-        smallestVertex->visited = 1; 
+        // mark that the vertex is in the set S
+        smallestVertex->visited = 1;
         if (firstTime) {
             firstTime = 0;
             smallestVertex->distanceToPrevVertex = 0;
         }
 
         edges = getEdgesToVertex(graph, smallestVertex);
-
         for (int i = 0; i < (n-1); i++) {
             if (edges[i].v->visited) {
-                break;
+                continue;
             }
 
             else {
                 if(edges[i].v->distanceToPrevVertex == INFINITY){
                     minHeapInsert(edges[i].v, vertexHeap);
                 }
-
                 if (edges[i].distance < edges[i].v->distanceToPrevVertex) {
                     edges[i].v->distanceToPrevVertex = edges[i].distance;
                     edges[i].v->prevVertex = smallestVertex;
                 }
             }
-
         }
         free(edges);
         heapify(vertexHeap);
         counter++;
     }
     return 0;
-    
+
 }
