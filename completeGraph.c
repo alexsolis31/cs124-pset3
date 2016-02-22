@@ -28,12 +28,14 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
        Since we have complete graphs, store each edge once, and use the fact
        that 1 + 2 + ... + n = (n + 1) * n / 2 to determine array len with
        n = numNodes - 1 */
+     //  printf("about to malloc\n");
     graph->edges = calloc(((numNodes - 1) * numNodes) / 2, sizeof(float));
     if (!graph->edges) {
         printf("Allocating graph edgeList with number of nodes: %d failed.\n", numNodes);
         free(graph);
         return NULL;
     }
+    //printf("malloc did not hang\n");
 
     graph->vertexList = calloc(numNodes, sizeof(vertex));
     if (!graph->vertexList) {
@@ -54,7 +56,7 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
 //Returns 1 on error.
 //TODO: UPDATE
 int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
-
+    //printf("populating\n");
     int nodes = graph->numNodes;
     int num_edges = (nodes*(nodes-1))/2;
 
@@ -135,7 +137,7 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
             counter++;
         }
     }*/
-
+    //printf("done populating\n");
     return 0;
 
 }
@@ -232,7 +234,9 @@ static inline float rand_num() {
         rand_calls = 0;
     }
     rand_calls++;
-    return rand() / (double)(RAND_MAX);
+    float randomness = rand() / (double)(RAND_MAX);
+    //("randomness: %f\n", randomness);
+    return randomness;
 }
 
 //List has length completeGraph->(numNodes - 1)
@@ -259,6 +263,7 @@ edgeMap *getEdgesToVertex(completeGraph *g, vertex *v) {
 
 // algorithm: given population, find MST
 // given: heap structure, populated graph,
+
 
 int prims(completeGraph *graph) {
 
@@ -304,6 +309,7 @@ int prims(completeGraph *graph) {
         free(edges);
         heapify(vertexHeap);
         counter++;
+        printf("%d through\n", counter);
     }
     return 0;
 
