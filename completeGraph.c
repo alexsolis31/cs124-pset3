@@ -28,12 +28,14 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
        Since we have complete graphs, store each edge once, and use the fact
        that 1 + 2 + ... + n = (n + 1) * n / 2 to determine array len with
        n = numNodes - 1 */
+     //  printf("about to malloc\n");
     graph->edges = calloc(((numNodes - 1) * numNodes) / 2, sizeof(float));
     if (!graph->edges) {
         printf("Allocating graph edgeList with number of nodes: %d failed.\n", numNodes);
         free(graph);
         return NULL;
     }
+    //printf("malloc did not hang\n");
 
     graph->vertexList = calloc(numNodes, sizeof(vertex));
     if (!graph->vertexList) {
@@ -55,13 +57,15 @@ completeGraph *genCompleteGraph(unsigned numNodes) {
 //TODO: UPDATE
 int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
 
-    int nodes = graph->numNodes;
-    int num_edges = (nodes*(nodes-1))/2;
+    unsigned nodes = graph->numNodes;
+    unsigned num_edges = (nodes*(nodes-1))/2;
+
+    graph->dimension = dimension;
 
 
     // populate the edge array for each dimension
     if (dimension == 0){
-        for (int i = 0; i <= num_edges; i++){
+        for (int i = 0; i < num_edges; i++){
             graph->edges[i] = rand_num();
         }
     }
@@ -74,10 +78,10 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
             graph->vertexList[i].y = rand_num();
 
         }
-
+        //printf("here\n");
         // edge array updated to hold euclidean distance between vertex (i,j)
         int counter = 0;
-        for (int i = 0; i <= nodes; i++){
+        for (int i = 0; i < nodes; i++){
             for (int j = (i+1); j < nodes; j++){
                 graph->edges[counter] = sqrt( pow((graph->vertexList[i].x - graph->vertexList[j].x), 2)  +  pow((graph->vertexList[i].y - graph->vertexList[j].x), 2));
                 counter++;
@@ -97,7 +101,7 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
         }
 
         int counter = 0;
-        for (int i = 0; i <= nodes; i++){
+        for (int i = 0; i < nodes; i++){
             for (int j = (i+1); j < nodes; j++){
                 graph->edges[counter] = sqrt( pow((graph->vertexList[i].x - graph->vertexList[j].x), 2)  +  pow((graph->vertexList[i].y - graph->vertexList[j].y), 2) + pow((graph->vertexList[i].z - graph->vertexList[j].z), 2));
                 counter++;
@@ -116,7 +120,7 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
         }
 
         int counter = 0;
-        for (int i = 0; i <= nodes; i++){
+        for (int i = 0; i < nodes; i++){
             for (int j = (i+1); j < nodes; j++){
                 graph->edges[counter] = sqrt( pow((graph->vertexList[i].x - graph->vertexList[j].x), 2)  +  pow((graph->vertexList[i].y - graph->vertexList[j].y), 2) + pow((graph->vertexList[i].z - graph->vertexList[j].z), 2) + pow((graph->vertexList[i].w - graph->vertexList[j].w), 2) );
                 counter++;
@@ -135,7 +139,7 @@ int eucPopulateCompleteGraph(completeGraph *graph, unsigned dimension) {
             counter++;
         }
     }*/
-
+    //printf("done populating\n");
     return 0;
 
 }
@@ -215,24 +219,26 @@ float findMST_Weight(completeGraph *graph) {
     prims(graph);
     float weight = 0;
 
-    for (int i = 0; i <= graph->numNodes; i++) {
+    for (int i = 0; i < graph->numNodes; i++) {
         weight += graph->vertexList[i].distanceToPrevVertex;
     }
-
+    //printf("weight is: %f\n", weight);
     return weight;
 }
 
 //Use tick count and clock as seed for RNG
-unsigned rand_calls = 0;
+unsigned rand_calls = 1001;
 
 static inline float rand_num() {
-
+    int seed;
     if (rand_calls > 1000) {
         srand(time(NULL) + clock());
         rand_calls = 0;
     }
     rand_calls++;
-    return rand() / (double)(RAND_MAX);
+    float randomness = rand() / (double)(RAND_MAX);
+    //("randomness: %f\n", randomness);
+    return randomness;
 }
 
 //List has length completeGraph->(numNodes - 1)
@@ -245,22 +251,40 @@ edgeMap *getEdgesToVertex(completeGraph *g, vertex *v) {
         return NULL;
     }
 
+    int index = 0;
     for(int i = 0; i < g->numNodes - 1; i++) {
-        if (i != v->vName) {
-            mapList[i].v = &g->vertexList[i];
-            mapList[i].distance = getEdge(g, i, v->vName);
+        if (i == v->vName) {
+            index++;
         }
+        mapList[i].v = &g->vertexList[index];
+        mapList[i].distance = getEdge(g, index, v->vName);
+        index++;
     }
     return mapList;
 }
 
 // algorithm: given population, find MST
-// given: heap structure, populated graph, 
+// given: heap structure, populated graph,
+
+
 
 int prims(completeGraph *graph) {
+    float magicNumber = 0;
+    if (graph->dimension ==0) {
+        magicNumber = 20.0f / (float) graph->numNodes;
+    }
+    else if (graph->dimension == 2) {
+        magicNumber = 15.0f * 2 / pow(graph->numNodes, 1.0f / 2.0f);
+    }
+    else if (graph->dimension == 3) {
+        magicNumber = 10.0f * 2 / pow(graph->numNodes, 1.0f / 2.5f);
+    }
+    else if (graph->dimension == 4) {
+        magicNumber = 10.0f / pow(graph->numNodes, 1.0f / 3.0f);
+    }
 
     unsigned n = graph->numNodes;
-    edgeMap* edges; 
+    edgeMap* edges;
     vertex *smallestVertex;
 
     // set of vertices, initially empty
@@ -270,42 +294,46 @@ int prims(completeGraph *graph) {
     minHeapInsert(&graph->vertexList[0], vertexHeap);
     int firstTime = 1;
     unsigned counter = 0;
+    unsigned incount = 0;
+
     while(vertexHeap->heapLen) {
         smallestVertex = minHeapDeleteMin(vertexHeap);
-
         // insert smallest Vertex into growing set
         growingSet[counter] = smallestVertex;
-
-        // mark that the vertex is in the set S 
-        smallestVertex->visited = 1; 
+        // mark that the vertex is in the set S
+        smallestVertex->visited = 1;
         if (firstTime) {
             firstTime = 0;
             smallestVertex->distanceToPrevVertex = 0;
         }
+        //printf("distance: %f\n", smallestVertex->distanceToPrevVertex);
 
         edges = getEdgesToVertex(graph, smallestVertex);
-
         for (int i = 0; i < (n-1); i++) {
             if (edges[i].v->visited) {
-                break;
+                continue;
             }
 
-            else {
+            else if (n < 35000 || edges[i].distance < magicNumber) {
+                incount++;
                 if(edges[i].v->distanceToPrevVertex == INFINITY){
                     minHeapInsert(edges[i].v, vertexHeap);
                 }
-
                 if (edges[i].distance < edges[i].v->distanceToPrevVertex) {
                     edges[i].v->distanceToPrevVertex = edges[i].distance;
                     edges[i].v->prevVertex = smallestVertex;
                 }
             }
-
         }
         free(edges);
         heapify(vertexHeap);
         counter++;
+        //printf("%d through with incount: %d\n", counter, incount);
+        incount = 0;
+
     }
+    destroyMinHeap(vertexHeap);
+    //printf("here\n");
     return 0;
-    
+
 }

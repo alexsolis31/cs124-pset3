@@ -22,7 +22,7 @@ minHeap *createMinHeap(unsigned maxLen) {
 
     heap->vertexList = calloc(maxLen, sizeof(vertex *));
     if (!heap->vertexList) {
-        printf("Memory error: could not allocate heap list of lenght %d.\n", maxLen);
+        printf("Memory error: could not allocate heap list of lenghth %d.\n", maxLen);
         free(heap);
         return NULL;
     }
