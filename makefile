@@ -14,3 +14,5 @@ clean:
 prims: prims.c minHeap.c completeGraph.c 
 	gcc -o prims prims.c minHeap.c completeGraph.c -I . -O0
 
+primsTest: primsTest.c prims.c minHeap.c completeGraph.c 
+	gcc -o primsTest primsTest.c prims.c minHeap.c completeGraph.c -I . -O0
